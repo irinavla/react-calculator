@@ -1,14 +1,11 @@
 import React from 'react';
+import Calculator from './components/containers/Calculator';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          this is the homepage
-        </p>
-      </header>
+      <Calculator />
     </div>
   );
 }
