@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import PointTarget from 'react-point'
+import './CalculatorKey.css';
 
 class CalculatorKey extends Component {
   render() {
@@ -8,7 +9,7 @@ class CalculatorKey extends Component {
     
     return (
       <PointTarget onPoint={onPress}>
-        <button className={`calculator-key ${className}`} {...props}/>
+        <div className={`${className}`} {...props}></div>
       </PointTarget>
     )
   }

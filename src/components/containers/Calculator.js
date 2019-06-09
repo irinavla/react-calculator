@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ResultDisplay from '../ui/ResultDisplay';
+import ResultDisplay from '../ui/ResultDisplay/ResultDisplay';
+import CalculatorKey from '../ui/CalculatorKey/CalculatorKey';
 import './Calculator.css';
 
 const CalculatorOperations = {
@@ -7,7 +8,7 @@ const CalculatorOperations = {
     '-': (prevValue, nextValue) => prevValue - nextValue,
     '+': (prevValue, nextValue) => prevValue + nextValue,
     '=': (prevValue, nextValue) => nextValue
-  }
+}
 
 
 class Calculator extends Component {
@@ -19,7 +20,7 @@ state = {
     waitingForOperand: false
 };
     
-    clearAll() {
+clearAll() {
     this.setState({
         value: null,
         displayValue: '0',
@@ -35,6 +36,24 @@ state = {
     }
     
 
+    clearLastChar() {
+        const { displayValue } = this.state
+        
+        this.setState({
+            displayValue: displayValue.substring(0, displayValue.length - 1) || '0'
+        })
+    }
+
+
+    toggleSign() {
+        const { displayValue } = this.state
+        const newValue = parseFloat(displayValue) * -1
+        
+        this.setState({
+          displayValue: String(newValue)
+        })
+      }
+
   render() {
 
     const { displayValue } = this.state;
@@ -47,25 +66,27 @@ state = {
 
             <div className="keypad">
                 <div className="keys">
-                    <div className="clear vh-center">clear</div>
+                <CalculatorKey className="clear vh-center">clear</CalculatorKey>
                     <div className="numbers">
-                        <div className="key vh-center">7</div>
-                        <div className="key vh-center">8</div>
-                        <div className="key vh-center">9</div>
-                        <div className="key vh-center">4</div>
-                        <div className="key vh-center">5</div>
-                        <div className="key vh-center">6</div>
-                        <div className="key vh-center">1</div>
-                        <div className="key vh-center">2</div>
-                        <div className="key vh-center">3</div>
+                        <CalculatorKey className="key vh-center">7</CalculatorKey>
+                        <CalculatorKey className="key vh-center">8</CalculatorKey>
+                        <CalculatorKey className="key vh-center">9</CalculatorKey>
+                        <CalculatorKey className="key vh-center">4</CalculatorKey>
+                        <CalculatorKey className="key vh-center">5</CalculatorKey>
+                        <CalculatorKey className="key vh-center">6</CalculatorKey>
+                        <CalculatorKey className="key vh-center">1</CalculatorKey>
+                        <CalculatorKey className="key vh-center">2</CalculatorKey>
+                        <CalculatorKey className="key vh-center">3</CalculatorKey>
                     </div>
 
                 </div>
                 <div className="operators">
-                    <div className="operator vh-center">÷</div>
-                    <div className="operator vh-center">-</div>
-                    <div className="operator vh-center">+</div>
-                    <div className="operator vh-center">=</div>
+
+                    <CalculatorKey className="operator vh-center">÷</CalculatorKey>
+                    <CalculatorKey className="operator vh-center">-</CalculatorKey>
+                    <CalculatorKey className="operator vh-center">+</CalculatorKey>
+                    <CalculatorKey className="operator vh-center">=</CalculatorKey>
+
                 </div>
             </div>
       </div>

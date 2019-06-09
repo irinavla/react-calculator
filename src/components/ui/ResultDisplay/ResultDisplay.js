@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './ResultDisplay.css';
 
 class ResultDisplay extends Component {
   render() {
@@ -17,7 +18,7 @@ class ResultDisplay extends Component {
       formattedValue += (/[1-9]/).test(match[0]) ? match[1] : match[0]
     
     return (
-      <div {...props} className="calculator-display">
+      <div {...props} className="result-display">
         <div>{formattedValue}</div>
       </div>
     )

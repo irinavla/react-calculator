@@ -1,8 +1,23 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,700&display=swap');
 
+:root {
+  --red-color: #a21919;
+  --dark-grey-color: #333333;
+  --black: #000000;
+  --white: #ffffff;
+  --border-radius: 16px;
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Roboto', sans-serif;
 }
+
+.vh-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
