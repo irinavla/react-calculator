@@ -2,25 +2,21 @@ import * as actionTypes from './actionTypes';
 
 export const inputDigit = (digit) => {
   return {
-    type: actionTypes.INPUT_DIGIT
+    type: actionTypes.INPUT_DIGIT,
+    digit: digit
   }
 }
 
-export const performOperation = () => {
+export const performOperation = (nextOperator) => {
+
   return {
     type: actionTypes.PERFORM_OPERATION,
-
-  }
-}
-
-export const handleKeyDown = (ev) => {
-  return {
-    type: actionTypes.KEY_DOWN
+    operator: nextOperator
   }
 }
 
 
-export const clearAll = (nextOperator) => {
+export const clearAll = () => {
   return {
     type: actionTypes.CLEAR_ALL
   }

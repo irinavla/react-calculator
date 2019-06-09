@@ -6,6 +6,7 @@ class ResultDisplay extends Component {
     const { value, ...props } = this.props
     
     const language = navigator.language || 'en-US'
+
     let formattedValue = parseFloat(value).toLocaleString(language, {
       useGrouping: true,
       maximumFractionDigits: 6
