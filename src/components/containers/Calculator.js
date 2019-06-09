@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import ResultDisplay from '../ui/ResultDisplay/ResultDisplay';
 import CalculatorKey from '../ui/CalculatorKey/CalculatorKey';
 import './Calculator.css';
-
+import { connect } from 'react-redux';
+ 
 const CalculatorOperations = {
     '/': (prevValue, nextValue) => prevValue / nextValue,
+    '*': (prevValue, nextValue) => prevValue * nextValue,
     '-': (prevValue, nextValue) => prevValue - nextValue,
     '+': (prevValue, nextValue) => prevValue + nextValue,
     '=': (prevValue, nextValue) => nextValue
@@ -12,50 +14,24 @@ const CalculatorOperations = {
 
 
 class Calculator extends Component {
-
-state = {
-    value: null,
-    displayValue: '0',
-    operator: null,
-    waitingForOperand: false
-};
     
-clearAll() {
-    this.setState({
-        value: null,
-        displayValue: '0',
-        operator: null,
-        waitingForOperand: false
-    })
-}
+// inputDigit(digit) {
+//     const { displayValue, waitingForOperand } = this.props;
 
-toggleSign() {
-    const { displayValue } = this.state
-    const newValue = parseFloat(displayValue) * -1
-    
-    this.setState({
-        displayValue: String(newValue)
-    })
-}
-
-
-inputDigit(digit) {
-    const { displayValue, waitingForOperand } = this.state
-
-    if (waitingForOperand) {
-        this.setState({
-            displayValue: String(digit),
-            waitingForOperand: false
-        })
-        } else {
-            this.setState({
-            displayValue: displayValue === '0' ? String(digit) : displayValue + digit
-        })
-    }
-}
+//     if (waitingForOperand) {
+//         this.setState({
+//             displayValue: String(digit),
+//             waitingForOperand: false
+//         })
+//         } else {
+//             this.setState({
+//             displayValue: displayValue === '0' ? String(digit) : displayValue + digit
+//         })
+//     }
+// }
 
 performOperation(nextOperator) {    
-    const { value, displayValue, operator } = this.state;
+    const { value, displayValue, operator } = this.props;
     const inputValue = parseFloat(displayValue);
     
     if (value == null) {
@@ -65,8 +41,6 @@ performOperation(nextOperator) {
     } else if (operator) {
       const currentValue = value || 0;
       const newValue = CalculatorOperations[operator](currentValue, inputValue);
-
-      console.log(newValue);
       
       this.setState({
         value: newValue,
@@ -96,9 +70,6 @@ handleKeyDown = (ev) => {
     } else if (key in CalculatorOperations) {
         ev.preventDefault()
         this.performOperation(key)
-    } else if (key === 'Backspace') {
-        ev.preventDefault()
-        this.clearLastChar()
     } else if (key === 'Delete') {
         ev.preventDefault()
         this.clearAll();
@@ -116,7 +87,9 @@ componentWillUnmount() {
 
   render() {
 
-    const { displayValue } = this.state;
+    const { displayValue } = this.props;
+
+    console.log(this.props);
 
     return (
       <div className="outer">
@@ -126,19 +99,19 @@ componentWillUnmount() {
 
             <div className="keypad">
                 <div className="keys">
-                <CalculatorKey className="clear vh-center" onPress={() => this.clearAll()}>clear</CalculatorKey>
+                <CalculatorKey className="clear vh-center" onPress={() => this.props.clearAll()}>clear</CalculatorKey>
 
                     <div className="numbers">
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(7)}>7</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(8)}>8</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(9)}>9</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(4)}>4</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(5)}>5</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(6)}>6</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(1)}>1</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(2)}>2</CalculatorKey>
-                        <CalculatorKey className="key vh-center" onPress={() => this.inputDigit(3)}>3</CalculatorKey>
-                    </div>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(7)}>7</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(8)}>8</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(9)}>9</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(4)}>4</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(5)}>5</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(6)}>6</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(1)}>1</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(2)}>2</CalculatorKey>
+                        <CalculatorKey className="key vh-center" onPress={() => this.props.inputDigit(3)}>3</CalculatorKey>
+                    </div>  
 
                 </div>
                 <div className="operators">
@@ -146,8 +119,7 @@ componentWillUnmount() {
                     <CalculatorKey className="operator vh-center" onPress={() => this.performOperation('/')}>÷</CalculatorKey>
                     <CalculatorKey className="operator vh-center" onPress={() => this.performOperation('-')}>-</CalculatorKey>
                     <CalculatorKey className="operator vh-center" onPress={() => this.performOperation('+')}>+</CalculatorKey>
-                    <CalculatorKey className="operator vh-center" onPress={() => this.performOperation('=')}>=</CalculatorKey>
-
+                    <CalculatorKey className="operator vh-center" onPress={() => this.performOperation('=')}>=</CalculatorKey>  
                 </div>
             </div>
       </div>
@@ -157,4 +129,20 @@ componentWillUnmount() {
   }
 }
 
-export default Calculator
+const mapStateToProps = (state) => {
+    return {
+        value: state.value,
+        displayValue: state.displayValue,
+        operator: state.operator,
+        waitingForOperand: state.waitingForOperand
+    }
+} 
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        clearAll: () => { dispatch({type: 'CLEAR_ALL'}) },
+        inputDigit: (digit) => { dispatch({ type: 'INPUT_DIGIT', digit: digit }) }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calculator)
